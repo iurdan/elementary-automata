@@ -78,7 +78,7 @@ int main(int argc, char** argv)
     world[SIZE / 2] = 1;
     
     int i, j = 0, delta = SDL_GetTicks();
-    int quit = 0, pause = 0;
+    int quit = 0;
 
     Uint32 pixels[SIZE * SIZE];
     memset(pixels, 0xFFFFFFFF, SIZE * SIZE * sizeof(Uint32));
@@ -89,10 +89,10 @@ int main(int argc, char** argv)
             	quit = 1;
             }
         }
-        if (SDL_GetTicks() - delta > 10 && !pause) {
-            if (j == SIZE) pause = 1;
-            if (world[0] == 1) pause = 1;
-            if (world[SIZE - 1] == 1) pause = 1;
+        if (SDL_GetTicks() - delta > 40) {
+            if (j == SIZE) quit = 1;
+            if (world[0] == 1) quit = 1;
+            if (world[SIZE - 1] == 1) quit = 1;
 	    for(i = 0; i < SIZE; i++) {
 		pixels[j*SIZE + i] = world[i] ? 0x0 : 0xFFFFFFFF;
             }
@@ -106,6 +106,7 @@ int main(int argc, char** argv)
             delta = SDL_GetTicks();
         }
     }
+    SDL_Delay(5000);
     SDL_DestroyTexture(texture);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
